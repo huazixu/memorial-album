@@ -1,0 +1,210 @@
+/* ====== 全局基础 ====== */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: "微软雅黑", sans-serif;
+  background: linear-gradient(135deg, #1c1c1c, #2e2e2e); /* 稳重深灰渐变 */
+  color: #fff;
+  overflow-x: hidden;
+}
+
+/* ====== 封面 ====== */
+#cover {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  cursor: pointer;
+  overflow: hidden;
+  background: linear-gradient(270deg, #1e3c72, #2a5298, #6dd5ed, #2193b0);
+  background-size: 800% 800%;
+  animation: gradientFlow 20s ease infinite;
+}
+
+/* 粒子背景（轻微高级感） */
+#cover::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 25px 25px;
+  animation: moveParticles 12s linear infinite;
+  z-index: 0;
+}
+
+/* 封面文字容器 */
+.cover-content {
+  position: relative;
+  z-index: 101;
+  text-align: center;
+  opacity: 0;
+  animation: fadeIn 1.5s forwards;
+}
+
+/* 封面标题打字机效果 */
+.cover-content h1 {
+  font-size: 28px;
+  color: #fff;
+  text-shadow: 2px 2px 6px rgba(0,0,0,0.5);
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 2px solid rgba(255,255,255,0.8);
+  width: 0;
+  animation: typing 2s steps(30) forwards;
+}
+
+/* 呼吸文字效果 */
+.cover-content p {
+  font-size: 16px;
+  color: #eee;
+  margin-top: 10px;
+  animation: breathe 2.5s infinite alternate;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.4);
+}
+
+/* ====== 相册网格 ====== */
+#gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  grid-auto-rows: 200px;
+  gap: 16px;
+  padding: 16px;
+  background: linear-gradient(180deg, #1c1c1c, #2a2a2a); /* 稳重背景 */
+}
+
+/* 图片样式 */
+#gallery img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 保持比例裁剪 */
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+  transition: transform 0.3s ease, filter 0.3s ease;
+  cursor: pointer;
+  filter: brightness(1.05) contrast(1.1);
+  opacity: 0;
+  animation: fadeInImg 0.8s forwards;
+}
+
+#gallery img:hover {
+  transform: scale(1.05);
+  filter: brightness(1.1) contrast(1.15);
+}
+
+/* ====== 全屏展示 ====== */
+/* 插入位置：style.css 的全屏样式之后 */
+.fullscreen {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.95);
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  overflow: hidden;
+  touch-action: pan-y; /* 防止滚动穿透 */
+}
+
+.fullscreen img {
+  max-width: 95%;
+  max-height: 90%;
+  object-fit: contain;
+  border-radius: 10px;
+}
+
+/* 全屏文字说明 */
+.photo-caption {
+  position: absolute;
+  bottom: 20px;
+  color: #fff;
+  font-size: 14px;
+  text-shadow: 1px 1px 5px rgba(0,0,0,0.6);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.fullscreen:hover .photo-caption {
+  opacity: 1;
+}
+
+/* ====== 动画效果 ====== */
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+@keyframes fadeInImg {
+  to { opacity: 1; }
+}
+
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes breathe {
+  0% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
+  100% { opacity: 0.6; transform: scale(1); }
+}
+
+@keyframes gradientFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes moveParticles {
+  0% { background-position: 0 0; }
+  100% { background-position: 100px 100px; }
+}
+
+/* ====== 移动端自适应 ====== */
+@media (max-width: 600px){
+  .cover-content h1 { font-size: 20px; }
+  .cover-content p { font-size: 14px; }
+  #gallery { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); grid-auto-rows: 150px; gap: 12px; padding: 12px; }
+  .fullscreen img { max-width: 95%; max-height: 80%; }
+}
+
+/* 插入位置：style.css 的封面相关样式之后 */
+@media (max-width: 600px) {
+  #cover {
+    height: 100vh; /* 确保铺满移动端屏幕 */
+  }
+  .cover-content h1 {
+    font-size: 20px;
+    line-height: 1.3;
+  }
+  .cover-content p {
+    font-size: 16px;
+  }
+}
+
+/* 插入位置：style.css 的相册样式之后 */
+@media (max-width: 480px) {
+  #gallery {
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 140px;
+    gap: 8px;
+    padding: 8px;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  #gallery {
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 160px;
+    gap: 10px;
+    padding: 10px;
+  }
+}
